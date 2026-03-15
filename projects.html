@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects · CyberDoc</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #00ffff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-shadow: 0 0 8px #00ffff;
+    }
+    .nav {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    .nav a {
+      color: #00ffff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+    .nav a:hover {
+      text-decoration: underline;
+    }
+    .content {
+      max-width: 600px;
+      padding: 20px;
+      border: 1px solid #00ffff33;
+      border-radius: 10px;
+      background: rgba(0,255,255,0.05);
+    }
+    h1 { font-size: 2.5rem; text-align: center; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 15px 0; font-size: 1.2rem; }
+    li::before { content: "🌐 "; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="projects.html">PROJECTS</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+
+  <div class="content">
+    <h1>📁 Projects</h1>
+    <ul>
+      <li>Hierarchical Tree Topology (this simulation)</li>
+      <li>SDN Controller Dashboard (coming soon)</li>
+      <li>Network Security Visualiser</li>
+      <li>BGP Routing Game</li>
+    </ul>
+  </div>
+</body>
+</html>
