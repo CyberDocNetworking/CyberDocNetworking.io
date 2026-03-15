@@ -1,62 +1,257 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About · CyberDoc</title>
+  <title>About Us · CyberDoc Networking</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: black;
-      color: #00ffff;
+      padding: 0;
+    }
+
+    body {
+      background: #0a0f0f;
+      color: #e0f2f2;
       font-family: 'Arial', sans-serif;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      text-shadow: 0 0 8px #00ffff;
+      padding: 80px 20px 40px;
+      background-image: radial-gradient(circle at 10% 20%, #00ffff08 0%, transparent 30%);
     }
+
+    /* Fixed navigation bar */
     .nav {
-      position: absolute;
-      top: 20px;
+      position: fixed;
+      top: 0;
       left: 0;
       width: 100%;
-      text-align: center;
+      background: rgba(0, 20, 20, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px 30px;
+      z-index: 100;
+      border-bottom: 1px solid #00ffff60;
+      box-shadow: 0 0 20px #00ffff30;
     }
+
     .nav a {
       color: #00ffff;
-      margin: 0 15px;
       text-decoration: none;
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      font-weight: 600;
+      text-shadow: 0 0 10px #00ffff;
+      padding: 6px 12px;
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
     }
+
     .nav a:hover {
-      text-decoration: underline;
+      color: white;
+      background: #00ffff20;
+      border-radius: 30px;
+      text-shadow: 0 0 20px cyan;
     }
+
+    @media (max-width: 450px) {
+      .nav {
+        gap: 10px;
+        padding: 10px;
+      }
+      .nav a {
+        font-size: 0.95rem;
+        padding: 4px 8px;
+      }
+    }
+
+    /* Main content card */
     .content {
-      max-width: 600px;
-      padding: 20px;
-      border: 1px solid #00ffff33;
-      border-radius: 10px;
-      background: rgba(0,255,255,0.05);
+      max-width: 900px;
+      width: 100%;
+      padding: 40px 35px;
+      border: 1px solid #00ffff40;
+      border-radius: 30px;
+      background: rgba(0, 30, 30, 0.6);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 40px #00ffff20, 0 0 0 1px #00ffff20 inset;
       text-align: center;
     }
-    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-    p { line-height: 1.6; }
+
+    h1 {
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      letter-spacing: 2px;
+    }
+
+    .tagline {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #aaffff;
+      margin-bottom: 40px;
+      font-style: italic;
+      border-bottom: 1px dashed #00ffff60;
+      padding-bottom: 20px;
+    }
+
+    .description {
+      text-align: left;
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      line-height: 1.8;
+      color: #d0f0f0;
+    }
+
+    .description p {
+      margin: 25px 0;
+    }
+
+    .highlight {
+      color: #00ffff;
+      font-weight: 600;
+      text-shadow: 0 0 5px cyan;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin: 50px 0 20px;
+    }
+
+    .stat-item {
+      flex: 1 1 140px;
+      background: rgba(0, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 20px 10px;
+      border: 1px solid #00ffff40;
+      backdrop-filter: blur(4px);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0 0 10px cyan;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: #aadddd;
+    }
+
+    .values {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 40px 0 20px;
+    }
+
+    .value-badge {
+      background: #00ffff10;
+      border: 1px solid #00ffff60;
+      border-radius: 40px;
+      padding: 8px 22px;
+      font-size: 1.1rem;
+      color: #ccffff;
+      backdrop-filter: blur(4px);
+    }
+
+    .cta {
+      margin-top: 40px;
+    }
+
+    .cta a {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid #00ffff;
+      color: #00ffff;
+      text-decoration: none;
+      padding: 14px 40px;
+      border-radius: 60px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: 0.3s;
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    .cta a:hover {
+      background: #00ffff;
+      color: black;
+      box-shadow: 0 0 30px cyan;
+    }
+
+    @media (max-width: 600px) {
+      .content {
+        padding: 30px 20px;
+      }
+      .stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="nav">
-    <a href="index.html">HOME</a>
-    <a href="about.html">ABOUT</a>
-    <a href="projects.html">PROJECTS</a>
-    <a href="contact.html">CONTACT</a>
+    <a href="index.html">🏠 HOME</a>
+    <a href="about.html">👥 ABOUT US</a>
+    <a href="projects.html">📁 PROJECTS</a>
+    <a href="contact.html">📞 CONTACT</a>
   </div>
 
   <div class="content">
-    <h1>🧑‍💻 About CyberDoc</h1>
-    <p>I'm a network engineer and visualisation enthusiast. This interactive topology is a live simulation of a hierarchical network with a router, redundant L3 switches, and four L2 access switches – all with bouncing packet animation.</p>
-    <p>Click and drag the two initial nodes to connect them and reveal the full tree.</p>
+    <h1>CyberDoc Networking</h1>
+    <div class="tagline">Engineers & laborers with proven industry experience</div>
+
+    <div class="description">
+      <p>We are a team of <span class="highlight">certified network engineers</span> and <span class="highlight">skilled field technicians</span> who have spent over a decade designing, installing, and maintaining high‑performance networks for enterprises, data centers, and service providers. Our workforce combines deep theoretical knowledge with hands‑on expertise – from structured cabling and fiber optics to advanced routing, switching, and security.</p>
+
+      <p>Every member of our team has <span class="highlight">5+ years of industry experience</span>. We believe that reliable connectivity starts with people who understand the real‑world challenges of network deployment. Whether it's a greenfield installation or troubleshooting a complex outage, our engineers and laborers work in sync to deliver fast, future‑proof solutions.</p>
+    </div>
+
+    <!-- Key stats (optional, adds credibility) -->
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Years combined experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">200+</div>
+        <div class="stat-label">Projects completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support & maintenance</div>
+      </div>
+    </div>
+
+    <!-- Core values / specialties -->
+    <div class="values">
+      <span class="value-badge">🔧 Network Design</span>
+      <span class="value-badge">📡 Fiber & Cabling</span>
+      <span class="value-badge">🛡️ Security</span>
+      <span class="value-badge">⚡ Redundancy</span>
+      <span class="value-badge">📶 Wireless</span>
+      <span class="value-badge">📦 SDN</span>
+    </div>
+
+    <!-- Call to action (contact) -->
+    <div class="cta">
+      <a href="contact.html">Talk to our team</a>
+    </div>
   </div>
 </body>
 </html>
