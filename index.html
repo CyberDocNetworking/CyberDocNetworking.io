@@ -12,9 +12,35 @@
     font-family: 'Arial', sans-serif;
     touch-action: none;
   }
+  /* Navigation bar */
+  #navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 12px 0;
+    text-align: center;
+    z-index: 100;
+    border-bottom: 1px solid #00ffff33;
+    backdrop-filter: blur(4px);
+  }
+  #navbar a {
+    color: #00ffff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 8px #00ffff;
+    transition: 0.3s;
+  }
+  #navbar a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 12px #00ffff;
+  }
   #msg {
     position: absolute;
-    top: 20px;
+    top: 70px; /* moved down to make room for navbar */
     width: 100%;
     text-align: center;
     color: #00ffff;
@@ -45,12 +71,21 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
+<div id="navbar">
+  <a href="index.html">HOME</a>
+  <a href="about.html">ABOUT</a>
+  <a href="projects.html">PROJECTS</a>
+  <a href="contact.html">CONTACT</a>
+</div>
+
 <div id="msg">🔌 connect the network link</div>
 <img id="logo" src="https://i.ibb.co/gMjPN96r/logo.jpg" alt="logo">
 
 <canvas id="c"></canvas>
 
 <script>
+// (your existing JavaScript code – unchanged)
 (function() {
   const canvas = document.getElementById('c');
   const ctx = canvas.getContext('2d');
@@ -73,13 +108,13 @@
   ];
 
   // ---- state ----
-  let connected = false;          // initial link established
-  let extendedVisible = false;    // tree should appear
-  let fadeAlpha = 0;              // opacity of tree (0..1)
+  let connected = false;
+  let extendedVisible = false;
+  let fadeAlpha = 0;
   let fadeAnimation = null;
   let logoFadeTimer = null;
 
-  // drag state (only active before connection)
+  // drag state
   let dragging = false;
   let dragStartNode = null;
   let currentMousePos = { x: 0, y: 0 };
@@ -87,23 +122,21 @@
   // ---- packet simulation ----
   let packets = [];
   const MAX_PACKETS = 30;
-  const PACKET_SPAWN_PROB = 0.02; // per frame when active
+  const PACKET_SPAWN_PROB = 0.02;
   let packetAnimationFrame = null;
-  let packetsActive = false;       // becomes true after tree fully faded in
+  let packetsActive = false;
 
-  // define all links for packet routing (as pairs of node references)
-  let links = []; // will be populated in updateNodes
+  // define all links for packet routing
+  let links = [];
 
   // ---------- update positions based on window size ----------
   function updateNodes() {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    // initial two nodes
     nodeA = { x: w * 0.3, y: h * 0.55 };
     nodeB = { x: w * 0.7, y: h * 0.55 };
 
-    // hierarchical tree layout
     router = { x: w * 0.5, y: h * 0.2 };
     l3_1 = { x: w * 0.35, y: h * 0.4 };
     l3_2 = { x: w * 0.65, y: h * 0.4 };
@@ -112,11 +145,10 @@
     l2[2] = { x: w * 0.6, y: h * 0.7 };
     l2[3] = { x: w * 0.8, y: h * 0.7 };
 
-    // update links (node references, not coordinates)
     links = [
       { from: router, to: l3_1 },
       { from: router, to: l3_2 },
-      { from: l3_1, to: l3_2 },  // redundant link
+      { from: l3_1, to: l3_2 },
       { from: l3_1, to: l2[0] },
       { from: l3_1, to: l2[1] },
       { from: l3_2, to: l2[2] },
@@ -133,9 +165,8 @@
     canvas.style.height = window.innerHeight + 'px';
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     updateNodes();
-    // Clear packets on resize to avoid wrong positions
     packets = [];
-    packetsActive = false; // will restart when fade complete
+    packetsActive = false;
     draw();
   }
 
@@ -146,7 +177,7 @@
   function startFadeIn() {
     if (fadeAnimation) cancelAnimationFrame(fadeAnimation);
     const startTime = performance.now();
-    const duration = 1000; // 1 sec
+    const duration = 1000;
     function animateFade(now) {
       const elapsed = now - startTime;
       fadeAlpha = Math.min(elapsed / duration, 1);
@@ -155,7 +186,6 @@
         fadeAnimation = requestAnimationFrame(animateFade);
       } else {
         fadeAnimation = null;
-        // Tree is fully visible – allow packets to start spawning
         packetsActive = true;
       }
     }
@@ -165,26 +195,17 @@
   // ---------- packet helpers ----------
   function spawnPacket() {
     if (packets.length >= MAX_PACKETS) return;
-    // pick random link
     const link = links[Math.floor(Math.random() * links.length)];
-    // random direction (0..1) and speed
-    const progress = Math.random(); // start anywhere along the link
-    const speed = 0.002 + Math.random() * 0.005; // per frame
-    const direction = Math.random() < 0.5 ? 1 : -1; // 1 = from->to, -1 = to->from
-    packets.push({
-      link,
-      progress,
-      speed,
-      direction
-    });
+    const progress = Math.random();
+    const speed = 0.002 + Math.random() * 0.005;
+    const direction = Math.random() < 0.5 ? 1 : -1;
+    packets.push({ link, progress, speed, direction });
   }
 
   function updatePackets() {
     for (let i = packets.length - 1; i >= 0; i--) {
       const p = packets[i];
-      // Move progress
       p.progress += p.speed * p.direction;
-      // Bounce at ends
       if (p.progress >= 1) {
         p.progress = 1 - (p.progress - 1);
         p.direction *= -1;
@@ -263,7 +284,7 @@
       ctx.shadowColor = '#ffffaa';
       ctx.beginPath();
       ctx.arc(x, y, 6, 0, Math.PI*2);
-      ctx.fillStyle = '#ffffaa'; // bright yellow packets
+      ctx.fillStyle = '#ffffaa';
       ctx.fill();
       ctx.restore();
     }
@@ -273,7 +294,6 @@
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // ---- before connection: draw the two nodes and dragging line ----
     if (!connected) {
       drawNode(nodeA, 1.0, '');
       drawNode(nodeB, 1.0, '');
@@ -294,11 +314,9 @@
       }
     }
 
-    // ---- after connection: tree topology + packets (if faded in) ----
     if (connected && extendedVisible) {
-      const a = fadeAlpha; // still used for tree fade-in
+      const a = fadeAlpha;
 
-      // connections (fade in)
       drawConnection(router, l3_1, a, false, '');
       drawConnection(router, l3_2, a, false, '');
       drawConnection(l3_1, l3_2, a, true, 'redundant');
@@ -307,7 +325,6 @@
       drawConnection(l3_2, l2[2], a, false, '');
       drawConnection(l3_2, l2[3], a, false, '');
 
-      // nodes
       drawNode(router, a, 'Router');
       drawNode(l3_1, a, 'L3-1');
       drawNode(l3_2, a, 'L3-2');
@@ -316,7 +333,6 @@
       drawNode(l2[2], a, 'L2-3');
       drawNode(l2[3], a, 'L2-4');
 
-      // small layer labels
       ctx.save();
       ctx.globalAlpha = a * 0.8;
       ctx.font = '9px Arial';
@@ -332,7 +348,6 @@
       ctx.fillText('access', l2[3].x, l2[3].y - 20);
       ctx.restore();
 
-      // packets only if tree is fully visible (avoid half-faded packets)
       if (a >= 0.99) {
         drawPackets();
       }
@@ -341,23 +356,18 @@
     ctx.setLineDash([]);
   }
 
-  // ---------- animation loop (updates packets and redraws) ----------
+  // ---------- animation loop ----------
   function animationLoop() {
     if (connected && extendedVisible && packetsActive) {
-      // spawn new packets randomly
-      if (Math.random() < PACKET_SPAWN_PROB) {
-        spawnPacket();
-      }
+      if (Math.random() < PACKET_SPAWN_PROB) spawnPacket();
       updatePackets();
     }
     draw();
     packetAnimationFrame = requestAnimationFrame(animationLoop);
   }
-
-  // start the loop
   packetAnimationFrame = requestAnimationFrame(animationLoop);
 
-  // ---------- node hit detection (only initial nodes) ----------
+  // ---------- node hit detection ----------
   function getNodeAt(x, y) {
     if (!connected) {
       if (Math.hypot(x - nodeA.x, y - nodeA.y) < 30) return 'A';
@@ -366,7 +376,6 @@
     return null;
   }
 
-  // ---------- event coordinates ----------
   function getClientCoords(e) {
     if (e.touches && e.touches.length > 0) {
       return { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -377,7 +386,6 @@
     return { x: e.clientX, y: e.clientY };
   }
 
-  // ---------- start drag ----------
   function onPointerDown(e) {
     e.preventDefault();
     if (connected) return;
@@ -391,7 +399,6 @@
     }
   }
 
-  // ---------- move ----------
   function onPointerMove(e) {
     if (!dragging || connected) return;
     e.preventDefault();
@@ -400,7 +407,6 @@
     draw();
   }
 
-  // ---------- end drag (connection attempt) ----------
   function onPointerUp(e) {
     if (!dragging || connected) {
       dragging = false;
@@ -414,12 +420,10 @@
     const endNode = getNodeAt(p.x, p.y);
 
     if (dragStartNode && endNode && dragStartNode !== endNode) {
-      // SUCCESS: initial link established
       connected = true;
       extendedVisible = true;
       msgEl.innerText = '✅ tree topology · packets flowing';
 
-      // logo fades in, then out after 2 seconds
       logoEl.style.opacity = 1;
       if (logoFadeTimer) clearTimeout(logoFadeTimer);
       logoFadeTimer = setTimeout(() => {
@@ -436,7 +440,6 @@
     draw();
   }
 
-  // ---------- cancel ----------
   function onPointerCancel(e) {
     if (dragging) {
       dragging = false;
@@ -445,7 +448,6 @@
     }
   }
 
-  // ---------- events ----------
   canvas.addEventListener('mousedown', onPointerDown);
   canvas.addEventListener('mousemove', onPointerMove);
   canvas.addEventListener('mouseup', onPointerUp);
@@ -458,12 +460,10 @@
 
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
-  // make sure to clean up animation frame on page unload (optional)
   window.addEventListener('beforeunload', () => {
     if (packetAnimationFrame) cancelAnimationFrame(packetAnimationFrame);
   });
 
-  // initial call
   resizeCanvas();
 })();
 </script>
