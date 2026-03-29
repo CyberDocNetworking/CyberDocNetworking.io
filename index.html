@@ -1,696 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>CyberDoc · connect the dots</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberDoc Presentation</title>
 
-    body {
-      background: #000;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-      touch-action: none;
-    }
+<style>
+body {
+  margin:0;
+  font-family:'Segoe UI', sans-serif;
+  background:#0A192F;
+  color:#E6F1FF;
+  overflow-x:hidden;
+}
 
-    /* ----- Liquid glass navigation (tinted cyan, responsive) ----- */
-    #navbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 40, 50, 0.25);
-      backdrop-filter: blur(20px) saturate(200%);
-      -webkit-backdrop-filter: blur(20px) saturate(200%);
-      padding: clamp(10px, 2vw, 18px) clamp(12px, 3vw, 24px);
-      z-index: 100;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: clamp(12px, 3vw, 36px);
-      border-bottom: 1px solid rgba(0, 255, 255, 0.4);
-      box-shadow: 0 4px 30px rgba(0, 255, 255, 0.2);
-      animation: liquidShift 8s infinite alternate ease-in-out;
-    }
+section {
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
 
-    #navbar a {
-      color: rgba(255, 255, 255, 0.95);
-      text-decoration: none;
-      font-size: clamp(0.9rem, 3vw, 1.25rem);
-      font-weight: 500;
-      transition: 0.2s;
-      padding: 4px clamp(8px, 2vw, 16px);
-      border-radius: 30px;
-      background: rgba(0, 255, 255, 0.15);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      white-space: nowrap;
-    }
+h1 { font-size:2.5rem; margin-bottom:20px; }
+h2 { font-size:2rem; margin-bottom:15px; }
+p { max-width:800px; color:#8892B0; }
 
-    #navbar a:hover {
-      background: rgba(0, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.6);
-      color: white;
-    }
+.highlight { color:#00D4FF; }
 
-    /* ----- Hero overlay (responsive) ----- */
-    .hero {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      text-align: center;
-      z-index: 50;
-      pointer-events: none;
-      color: white;
-      padding: 0 5vw;
-      opacity: 0.6;
-      transition: opacity 1.5s ease 0.5s;
-    }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
 
-    .hero.fade-in {
-      opacity: 1;
-    }
+.card {
+  background:#112240;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid rgba(0,212,255,0.2);
+}
 
-    .hero h1 {
-      font-size: clamp(1.2rem, 4vw, 2.8rem);
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff, #aaffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-      text-shadow: 0 0 30px rgba(0,255,255,0.5);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid #00ffff;
-      width: 0;
-      animation: typing 3.5s steps(40, end) forwards, blinkCaret 0.75s step-end infinite;
-      max-width: 100%;
-      display: inline-block;
-    }
+/* simple fade animation */
+.fade {
+  opacity:0;
+  transform:translateY(30px);
+  transition:1s;
+}
 
-    .hero p {
-      font-size: clamp(1rem, 4vw, 2rem);
-      font-weight: 400;
-      color: white;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.4;
-      background: rgba(0, 40, 60, 0.35);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      display: inline-block;
-      padding: clamp(8px, 2vw, 16px) clamp(16px, 4vw, 36px);
-      border-radius: 60px;
-      border: 1px solid rgba(0, 255, 255, 0.5);
-      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.3);
-      word-break: break-word;
-      white-space: normal;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
+.fade.visible {
+  opacity:1;
+  transform:translateY(0);
+}
 
-    .hero.fade-in p {
-      opacity: 1;
-    }
-
-    /* Typing animation */
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blinkCaret {
-      from, to { border-color: transparent; }
-      50% { border-color: #00ffff; }
-    }
-
-    /* ----- instruction with liquid glass (responsive) ----- */
-    #msg {
-      position: absolute;
-      bottom: clamp(20px, 5vh, 40px);
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: clamp(12px, 3vw, 18px);
-      font-weight: 400;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      pointer-events: none;
-      z-index: 50;
-      transition: opacity 1.5s ease 0.5s;
-      opacity: 0.6;
-      background: rgba(0, 40, 50, 0.3);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: clamp(6px, 1.5vw, 10px) clamp(16px, 4vw, 28px);
-      border-radius: 50px;
-      border: 1px solid rgba(0, 255, 255, 0.4);
-      white-space: nowrap;
-      box-shadow: 0 0 30px rgba(0,255,255,0.2);
-      animation: liquidShift 12s infinite alternate ease-in-out;
-    }
-
-    #msg.fade-in {
-      opacity: 1;
-    }
-
-    /* ----- Liquid shift animation (for glass effect) ----- */
-    @keyframes liquidShift {
-      0% {
-        background-position: 0% 0%;
-        border-color: rgba(0, 255, 255, 0.4);
-        box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
-      }
-      50% {
-        background-position: 100% 100%;
-        border-color: rgba(100, 255, 255, 0.7);
-        box-shadow: 0 12px 40px rgba(0, 255, 255, 0.5);
-      }
-      100% {
-        background-position: 0% 0%;
-        border-color: rgba(0, 255, 255, 0.4);
-        box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
-      }
-    }
-
-    #navbar, .hero p, #msg {
-      background-size: 200% 200%;
-      background-image: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.2), rgba(0, 100, 150, 0.3), rgba(0, 40, 60, 0.4));
-    }
-
-    /* ----- pulsing dots (positioned via JS, responsive size) ----- */
-    .dot-pulse {
-      position: absolute;
-      width: clamp(40px, 8vw, 60px);
-      height: clamp(40px, 8vw, 60px);
-      border-radius: 50%;
-      background: rgba(0, 255, 255, 0.3);
-      box-shadow: 0 0 30px #00ffff;
-      z-index: 2;
-      pointer-events: none;
-      animation: pulse 2s infinite;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes pulse {
-      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-      50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.4; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    }
-
-    /* ----- logo (responsive) ----- */
-    #logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(300px, 70vw);
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      filter: drop-shadow(0 0 30px #00ffff);
-      pointer-events: none;
-      z-index: 200;
-      border-radius: 28px;
-    }
-
-    /* ----- canvas (fullscreen) ----- */
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      touch-action: none;
-      position: relative;
-      z-index: 1;
-      transition: opacity 2s ease;
-    }
-
-    /* vignette */
-    .vignette {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.7);
-      pointer-events: none;
-      z-index: 40;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <div id="navbar">
-    <a href="index.html">HOME</a>
-    <a href="about.html">ABOUT</a>
-    <a href="projects.html">PROJECTS</a>
-    <a href="contact.html">CONTACT</a>
-  </div>
+<!-- SLIDE 1 -->
+<section class="fade">
+<h1>CyberDoc <span class="highlight">Network Solutions</span></h1>
+<p>We are experts in networking — LAN, Wi-Fi, Data Centers & Security</p>
+<p>Today we present the <b>District Hospital LAN Upgrade Proposal</b></p>
+</section>
 
-  <!-- Dots pulse overlay (positioned by JS) -->
-  <div id="pulseA" class="dot-pulse" style="display: none;"></div>
-  <div id="pulseB" class="dot-pulse" style="display: none;"></div>
+<!-- SLIDE 2 -->
+<section class="fade">
+<h2>Current Problems</h2>
+<p>Slow network • Weak Wi-Fi • Hard access to EMR • No proper security • High downtime</p>
+</section>
 
-  <div class="hero" id="hero">
-    <h1>you just stepped in to the world of networking</h1>
-    <p>Connect them as you wish, tell us your idea — we'll make it real.</p>
-  </div>
+<!-- SLIDE 3 -->
+<section class="fade">
+<h2>Our Objectives</h2>
+<p>Faster network • Full Wi-Fi coverage • Strong security • Stable EMR access • Future-ready system</p>
+</section>
 
-  <div id="msg">connect the two dots to begin</div>
+<!-- SLIDE 4 -->
+<section class="fade">
+<h2>Network Architecture</h2>
+<p>VLAN segmentation • IP planning • Routing & ACLs • Firewall rules</p>
+</section>
 
-  <img id="logo" src="https://i.ibb.co/gMjPN96r/logo.jpg" alt="CyberDoc">
+<!-- SLIDE 5 -->
+<section class="fade">
+<h2>Physical Design</h2>
+<p>Fiber backbone • CAT6 cabling • Network racks • Data center layout</p>
+</section>
 
-  <canvas id="c"></canvas>
+<!-- SLIDE 6 -->
+<section class="fade">
+<h2>Technologies Used</h2>
+<div class="grid">
+<div class="card">VLAN</div>
+<div class="card">Layer 3 Switching</div>
+<div class="card">Wi-Fi 6</div>
+<div class="card">Firewall</div>
+<div class="card">CCTV</div>
+<div class="card">UPS</div>
+</div>
+</section>
 
-  <div class="vignette"></div>
+<!-- SLIDE 7 -->
+<section class="fade">
+<h2>Data Center</h2>
+<p>EMR Server • Database • Backup Server • Core Switch • Firewall • UPS</p>
+</section>
 
-  <script>
-    (function() {
-      const canvas = document.getElementById('c');
-      const ctx = canvas.getContext('2d');
-      const msgEl = document.getElementById('msg');
-      const logoEl = document.getElementById('logo');
-      const heroEl = document.getElementById('hero');
-      const pulseA = document.getElementById('pulseA');
-      const pulseB = document.getElementById('pulseB');
+<!-- SLIDE 8 -->
+<section class="fade">
+<h2>Security</h2>
+<p>Role Based Access Control • Firewall Protection • Antivirus • Monitoring</p>
+</section>
 
-      // ---- initial two nodes ----
-      let nodeA = { x: 0, y: 0 };
-      let nodeB = { x: 0, y: 0 };
+<!-- SLIDE 9 -->
+<section class="fade">
+<h2>Backup Strategy</h2>
+<p>Weekly backups • Cloud + Local • Encrypted • Fast recovery</p>
+</section>
 
-      // ---- hierarchical tree nodes ----
-      let router = { x: 0, y: 0 };
-      let l3_1 = { x: 0, y: 0 };
-      let l3_2 = { x: 0, y: 0 };
-      let l2 = [
-        { x: 0, y: 0 },
-        { x: 0, y: 0 },
-        { x: 0, y: 0 },
-        { x: 0, y: 0 }
-      ];
+<!-- SLIDE 10 -->
+<section class="fade">
+<h2>Budget</h2>
+<p>Total Equipment: LKR 74,592,000</p>
+<p>Monthly Cost: LKR 1,570,000</p>
+</section>
 
-      // ---- state ----
-      let connected = false;
-      let extendedVisible = false;
-      let fadeAlpha = 0;
-      let fadeAnimation = null;
-      let logoFadeTimer = null;
-      let dimTimer = null;
+<!-- SLIDE 11 -->
+<section class="fade">
+<h2>Benefits</h2>
+<p>Fast access • Full coverage • Secure data • Low downtime • Future scalability</p>
+</section>
 
-      // drag state
-      let dragging = false;
-      let dragStartNode = null;
-      let currentMousePos = { x: 0, y: 0 };
+<!-- SLIDE 12 -->
+<section class="fade">
+<h1>Thank You</h1>
+<p>CyberDoc Network Solutions</p>
+<p>cyberdocnetworking@gmail.com</p>
+</section>
 
-      // ---- packet simulation ----
-      let packets = [];
-      const MAX_PACKETS = 30;
-      const PACKET_SPAWN_PROB = 0.02;
-      let packetAnimationFrame = null;
-      let packetsActive = false;
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+});
 
-      // define all links for packet routing
-      let links = [];
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+</script>
 
-      // ---------- update positions based on window size ----------
-      function updateNodes() {
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-
-        nodeA = { x: w * 0.3, y: h * 0.55 };
-        nodeB = { x: w * 0.7, y: h * 0.55 };
-
-        // Position the pulsing overlays (centered on node)
-        pulseA.style.left = nodeA.x + 'px';
-        pulseA.style.top = nodeA.y + 'px';
-        pulseB.style.left = nodeB.x + 'px';
-        pulseB.style.top = nodeB.y + 'px';
-
-        router = { x: w * 0.5, y: h * 0.2 };
-        l3_1 = { x: w * 0.35, y: h * 0.4 };
-        l3_2 = { x: w * 0.65, y: h * 0.4 };
-        l2[0] = { x: w * 0.2, y: h * 0.7 };
-        l2[1] = { x: w * 0.4, y: h * 0.7 };
-        l2[2] = { x: w * 0.6, y: h * 0.7 };
-        l2[3] = { x: w * 0.8, y: h * 0.7 };
-
-        links = [
-          { from: router, to: l3_1 },
-          { from: router, to: l3_2 },
-          { from: l3_1, to: l3_2 },
-          { from: l3_1, to: l2[0] },
-          { from: l3_1, to: l2[1] },
-          { from: l3_2, to: l2[2] },
-          { from: l3_2, to: l2[3] }
-        ];
-      }
-
-      // ---------- resize canvas ----------
-      function resizeCanvas() {
-        const ratio = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * ratio;
-        canvas.height = window.innerHeight * ratio;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        updateNodes();
-        packets = [];
-        packetsActive = false;
-        draw();
-      }
-
-      window.addEventListener('resize', resizeCanvas);
-      window.addEventListener('load', resizeCanvas);
-
-      // Show pulsing dots after typing animation finishes (3.5s)
-      setTimeout(() => {
-        if (!connected) {
-          pulseA.style.display = 'block';
-          pulseB.style.display = 'block';
-        }
-      }, 3500);
-
-      // ---------- fade animation for extended topology ----------
-      function startFadeIn() {
-        if (fadeAnimation) cancelAnimationFrame(fadeAnimation);
-        const startTime = performance.now();
-        const duration = 1000; // 1 second fade-in
-        function animateFade(now) {
-          const elapsed = now - startTime;
-          fadeAlpha = Math.min(elapsed / duration, 1);
-          draw();
-          if (fadeAlpha < 1) {
-            fadeAnimation = requestAnimationFrame(animateFade);
-          } else {
-            fadeAnimation = null;
-            packetsActive = true; // packets start flowing
-            // Hide pulsing dots immediately (they are no longer needed)
-            pulseA.style.display = 'none';
-            pulseB.style.display = 'none';
-            // Wait 3 seconds after tree is fully visible, then dim canvas and brighten text
-            if (dimTimer) clearTimeout(dimTimer);
-            dimTimer = setTimeout(() => {
-              canvas.style.opacity = '0.05';       // simulation dims to 5%
-              heroEl.classList.add('fade-in');      // hero text (headline and subhead) brightens
-              msgEl.classList.add('fade-in');       // instruction brightens
-              dimTimer = null;
-            }, 3000);
-          }
-        }
-        fadeAnimation = requestAnimationFrame(animateFade);
-      }
-
-      // ---------- packet helpers ----------
-      function spawnPacket() {
-        if (packets.length >= MAX_PACKETS) return;
-        const link = links[Math.floor(Math.random() * links.length)];
-        const progress = Math.random();
-        const speed = 0.002 + Math.random() * 0.005;
-        const direction = Math.random() < 0.5 ? 1 : -1;
-        packets.push({ link, progress, speed, direction });
-      }
-
-      function updatePackets() {
-        for (let i = packets.length - 1; i >= 0; i--) {
-          const p = packets[i];
-          p.progress += p.speed * p.direction;
-          if (p.progress >= 1) {
-            p.progress = 1 - (p.progress - 1);
-            p.direction *= -1;
-          } else if (p.progress <= 0) {
-            p.progress = -p.progress;
-            p.direction *= -1;
-          }
-        }
-      }
-
-      // ---------- drawing primitives ----------
-      function drawNode(n, alpha = 1.0, label = '') {
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 16, 0, Math.PI * 2);
-        ctx.fillStyle = '#00ffff';
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = '#00ffff';
-        ctx.fill();
-        ctx.restore();
-
-        if (label) {
-          ctx.save();
-          ctx.globalAlpha = alpha;
-          ctx.font = 'bold 12px Arial';
-          ctx.fillStyle = '#aaffff';
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = '#00ffff';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'top';
-          ctx.fillText(label, n.x, n.y + 20);
-          ctx.restore();
-        }
-      }
-
-      function drawConnection(p1, p2, alpha = 1.0, dash = false, label = '') {
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = dash ? 3 : 2.5;
-        if (dash) ctx.setLineDash([6, 4]);
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = '#00ffff';
-        ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.stroke();
-        ctx.restore();
-
-        if (label) {
-          ctx.save();
-          ctx.globalAlpha = alpha;
-          ctx.font = '10px Arial';
-          ctx.fillStyle = '#88ffff';
-          ctx.shadowBlur = 4;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-          const mx = (p1.x + p2.x) / 2;
-          const my = (p1.y + p2.y) / 2;
-          ctx.fillText(label, mx, my - 8);
-          ctx.restore();
-        }
-      }
-
-      function drawPackets() {
-        for (let p of packets) {
-          const start = p.direction > 0 ? p.link.from : p.link.to;
-          const end = p.direction > 0 ? p.link.to : p.link.from;
-          const prog = p.direction > 0 ? p.progress : 1 - p.progress;
-          const x = start.x + (end.x - start.x) * prog;
-          const y = start.y + (end.y - start.y) * prog;
-
-          ctx.save();
-          ctx.shadowBlur = 20;
-          ctx.shadowColor = '#ffffaa';
-          ctx.beginPath();
-          ctx.arc(x, y, 6, 0, Math.PI*2);
-          ctx.fillStyle = '#ffffaa';
-          ctx.fill();
-          ctx.restore();
-        }
-      }
-
-      // ---------- main draw ----------
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        if (!connected) {
-          drawNode(nodeA, 1.0, '');
-          drawNode(nodeB, 1.0, '');
-
-          if (dragging && dragStartNode) {
-            const start = dragStartNode === 'A' ? nodeA : nodeB;
-            ctx.save();
-            ctx.strokeStyle = '#00ffff';
-            ctx.lineWidth = 4;
-            ctx.setLineDash([8, 8]);
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#00ffff';
-            ctx.beginPath();
-            ctx.moveTo(start.x, start.y);
-            ctx.lineTo(currentMousePos.x, currentMousePos.y);
-            ctx.stroke();
-            ctx.restore();
-          }
-        }
-
-        if (connected && extendedVisible) {
-          const a = fadeAlpha;
-
-          drawConnection(router, l3_1, a, false, '');
-          drawConnection(router, l3_2, a, false, '');
-          drawConnection(l3_1, l3_2, a, true, 'redundant');
-          drawConnection(l3_1, l2[0], a, false, '');
-          drawConnection(l3_1, l2[1], a, false, '');
-          drawConnection(l3_2, l2[2], a, false, '');
-          drawConnection(l3_2, l2[3], a, false, '');
-
-          drawNode(router, a, 'Router');
-          drawNode(l3_1, a, 'L3-1');
-          drawNode(l3_2, a, 'L3-2');
-          drawNode(l2[0], a, 'L2-1');
-          drawNode(l2[1], a, 'L2-2');
-          drawNode(l2[2], a, 'L2-3');
-          drawNode(l2[3], a, 'L2-4');
-
-          ctx.save();
-          ctx.globalAlpha = a * 0.8;
-          ctx.font = '9px Arial';
-          ctx.fillStyle = '#ccffff';
-          ctx.shadowBlur = 4;
-          ctx.textAlign = 'center';
-          ctx.fillText('core', router.x, router.y - 20);
-          ctx.fillText('dist', l3_1.x, l3_1.y - 20);
-          ctx.fillText('dist', l3_2.x, l3_2.y - 20);
-          ctx.fillText('access', l2[0].x, l2[0].y - 20);
-          ctx.fillText('access', l2[1].x, l2[1].y - 20);
-          ctx.fillText('access', l2[2].x, l2[2].y - 20);
-          ctx.fillText('access', l2[3].x, l2[3].y - 20);
-          ctx.restore();
-
-          if (a >= 0.99) {
-            drawPackets();
-          }
-        }
-
-        ctx.setLineDash([]);
-      }
-
-      // ---------- animation loop ----------
-      function animationLoop() {
-        if (connected && extendedVisible && packetsActive) {
-          if (Math.random() < PACKET_SPAWN_PROB) spawnPacket();
-          updatePackets();
-        }
-        draw();
-        packetAnimationFrame = requestAnimationFrame(animationLoop);
-      }
-      packetAnimationFrame = requestAnimationFrame(animationLoop);
-
-      // ---------- node hit detection ----------
-      function getNodeAt(x, y) {
-        if (!connected) {
-          if (Math.hypot(x - nodeA.x, y - nodeA.y) < 30) return 'A';
-          if (Math.hypot(x - nodeB.x, y - nodeB.y) < 30) return 'B';
-        }
-        return null;
-      }
-
-      function getClientCoords(e) {
-        if (e.touches && e.touches.length > 0) {
-          return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-        if (e.changedTouches && e.changedTouches.length > 0) {
-          return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-        }
-        return { x: e.clientX, y: e.clientY };
-      }
-
-      function onPointerDown(e) {
-        e.preventDefault();
-        if (connected) return;
-        const p = getClientCoords(e);
-        const node = getNodeAt(p.x, p.y);
-        if (node) {
-          dragging = true;
-          dragStartNode = node;
-          currentMousePos = { x: p.x, y: p.y };
-          draw();
-        }
-      }
-
-      function onPointerMove(e) {
-        if (!dragging || connected) return;
-        e.preventDefault();
-        const p = getClientCoords(e);
-        currentMousePos = { x: p.x, y: p.y };
-        draw();
-      }
-
-      function onPointerUp(e) {
-        if (!dragging || connected) {
-          dragging = false;
-          dragStartNode = null;
-          draw();
-          return;
-        }
-
-        e.preventDefault();
-        const p = getClientCoords(e);
-        const endNode = getNodeAt(p.x, p.y);
-
-        if (dragStartNode && endNode && dragStartNode !== endNode) {
-          connected = true;
-          extendedVisible = true;
-          msgEl.innerText = '✅ share your idea — we’ll make it real';
-
-          // Logo appears and fades out after 2 seconds
-          logoEl.style.opacity = 1;
-          if (logoFadeTimer) clearTimeout(logoFadeTimer);
-          logoFadeTimer = setTimeout(() => {
-            logoEl.style.opacity = 0;
-            logoFadeTimer = null;
-          }, 2000);
-
-          fadeAlpha = 0;
-          startFadeIn();
-        }
-
-        dragging = false;
-        dragStartNode = null;
-        draw();
-      }
-
-      function onPointerCancel(e) {
-        if (dragging) {
-          dragging = false;
-          dragStartNode = null;
-          draw();
-        }
-      }
-
-      canvas.addEventListener('mousedown', onPointerDown);
-      canvas.addEventListener('mousemove', onPointerMove);
-      canvas.addEventListener('mouseup', onPointerUp);
-      canvas.addEventListener('mouseleave', onPointerCancel);
-
-      canvas.addEventListener('touchstart', onPointerDown, { passive: false });
-      canvas.addEventListener('touchmove', onPointerMove, { passive: false });
-      canvas.addEventListener('touchend', onPointerUp);
-      canvas.addEventListener('touchcancel', onPointerCancel);
-
-      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
-
-      window.addEventListener('beforeunload', () => {
-        if (packetAnimationFrame) cancelAnimationFrame(packetAnimationFrame);
-        if (dimTimer) clearTimeout(dimTimer);
-      });
-
-      resizeCanvas();
-    })();
-  </script>
 </body>
 </html>
