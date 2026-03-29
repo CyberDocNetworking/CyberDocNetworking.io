@@ -1,18 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Slide 1</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberDoc Presentation - 01</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body class="hero" data-next="slide2.html" style="--hero-image:url('https://i.ibb.co/cd5hq75/teaching-hospital-rathnapura.jpg');">
+  <section class="slide">
+    <header class="slide-top">
+      <div class="brand">CyberDoc Network Solutions</div>
+      <div class="counter">01 / 12</div>
+    </header>
 
-<body class="hero" data-next="slide2.html">
+    <main class="slide-main">
+      <div class="content">
+        <h1>CyberDoc <span class="highlight">Network Solutions</span></h1>
 
-<section class="slide">
-<h1>CyberDoc Network Solutions</h1>
-<p>We are experts in networking — LAN, Wi-Fi, Data Centers & Security</p>
-<p>Today we present the District Hospital LAN Upgrade Proposal</p>
-</section>
+        <p class="lead">We are experts in networking — LAN, Wi-Fi, Data Centers & Security</p>
 
-<script src="script.js"></script>
+        <p>Today we present the District Hospital LAN Upgrade Proposal</p>
+
+        <!-- Optional media block for this slide:
+        <div class="media-slot" style="margin-top:24px;">
+          <img src="assets/images/your-image.jpg" alt="Hospital view" />
+        </div>
+        -->
+      </div>
+    </main>
+
+    <footer class="slide-bottom">
+      <div class="nav-hint">Click anywhere or use arrow keys</div>
+      <div class="nav-group">
+        <span class="nav-btn disabled" data-go-prev>Previous</span>
+        <a class="nav-btn" href="slide2.html" data-go-next>Next</a>
+      </div>
+    </footer>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
