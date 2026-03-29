@@ -38,3 +38,19 @@ ul li {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+.presenter-switch {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  opacity: 0.3;
+}
+
+.presenter-switch:hover {
+  opacity: 1;
+}
+
+.presenter-switch select {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
