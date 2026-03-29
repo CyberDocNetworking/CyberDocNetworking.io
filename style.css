@@ -1,1 +1,58 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0A192F;
+  color: #E6F1FF;
+  overflow: hidden;
+}
 
+.slide {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+p, li {
+  color: #8892B0;
+  max-width: 700px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.hero {
+  background: url('https://i.ibb.co/cd5hq75/teaching-hospital-rathnapura.jpg') center/cover no-repeat;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(10,25,47,0.8);
+  top: 0;
+  left: 0;
+}
+
+.hero * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
