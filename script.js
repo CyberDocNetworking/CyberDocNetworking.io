@@ -1,25 +1,36 @@
 let slides = document.querySelectorAll(".slide");
 let current = 0;
 
+/* Detect page */
+let page = window.location.pathname.split("/").pop();
+
+let presenters = [
+  "presenter1.html",
+  "presenter2.html",
+  "presenter3.html",
+  "presenter4.html"
+];
+
+let pageIndex = presenters.indexOf(page);
+
 /* Show first slide */
 slides[current].classList.add("active");
 
-/* NEXT SLIDE (click anywhere) */
+/* NORMAL CLICK MODE */
 document.addEventListener("click", () => {
-  nextSlide();
-});
-
-/* PREVIOUS SLIDE (right click) */
-document.addEventListener("contextmenu", (e) => {
-  e.preventDefault();
-  prevSlide();
+  if (!autoMode) nextSlide();
 });
 
 /* FUNCTIONS */
 function nextSlide() {
   slides[current].classList.remove("active");
-  current = (current + 1) % slides.length;
-  slides[current].classList.add("active");
+  current++;
+
+  if (current < slides.length) {
+    slides[current].classList.add("active");
+  } else {
+    goNextPresenter();
+  }
 }
 
 function prevSlide() {
@@ -28,42 +39,47 @@ function prevSlide() {
   slides[current].classList.add("active");
 }
 
+/* GO TO NEXT PRESENTER */
+function goNextPresenter() {
+  let nextPage = presenters[pageIndex + 1];
+
+  if (nextPage) {
+    window.location.href = nextPage;
+  } else {
+    window.location.href = presenters[0]; // loop
+  }
+}
+
+/* AUTO MODE */
+let autoMode = false;
+let interval;
+
+function toggleAuto() {
+  autoMode = !autoMode;
+
+  if (autoMode) {
+    interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+  } else {
+    clearInterval(interval);
+  }
+}
+
 /* KEYBOARD CONTROLS */
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") nextSlide();
   if (e.key === "ArrowLeft") prevSlide();
 
+  if (e.key === "a") toggleAuto(); // 🔥 AUTO ON/OFF
+
   if (e.key === "f") {
     document.documentElement.requestFullscreen();
   }
-
-  if (e.key === "Escape") {
-    document.exitFullscreen();
-  }
-
-  if (e.key === " ") {
-    nextSlide(); // spacebar next
-  }
 });
 
-/* AUTO SLIDE MODE */
-let auto = false;
-let interval;
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "a") {
-    auto = !auto;
-
-    if (auto) {
-      interval = setInterval(nextSlide, 4000);
-    } else {
-      clearInterval(interval);
-    }
-  }
-/* SWITCH PRESENTER (keyboard) */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "1") window.location.href = "presenter1.html";
-  if (e.key === "2") window.location.href = "presenter2.html";
-  if (e.key === "3") window.location.href = "presenter3.html";
-  if (e.key === "4") window.location.href = "presenter4.html";
+/* RIGHT CLICK = PREVIOUS */
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  prevSlide();
 });
