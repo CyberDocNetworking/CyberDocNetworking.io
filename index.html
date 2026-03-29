@@ -196,6 +196,32 @@
             border-radius: 50%;
         }
 
+        /* INDIVIDUAL PRESENTER IMAGE POSITION ADJUSTMENTS */
+        /* Thumula - move face down so it's not cropped */
+        .presenter-card:first-child .presenter-avatar img {
+            object-position: center 35%;  /* Adjust this value (30%-45%) to position face correctly */
+        }
+        
+        /* If Nipun's photo needs adjustment, uncomment and adjust */
+        /* .presenter-card:nth-child(2) .presenter-avatar img {
+            object-position: center 40%;
+        } */
+        
+        /* If Senuri's photo needs adjustment, uncomment and adjust */
+        /* .presenter-card:nth-child(3) .presenter-avatar img {
+            object-position: center 35%;
+        } */
+        
+        /* If Lashanthi's photo needs adjustment, uncomment and adjust */
+        /* .presenter-card:nth-child(4) .presenter-avatar img {
+            object-position: center 40%;
+        } */
+        
+        /* If Shaith's photo needs adjustment, uncomment and adjust */
+        /* .presenter-card:nth-child(5) .presenter-avatar img {
+            object-position: center 35%;
+        } */
+
         /* Fallback text when image missing */
         .presenter-avatar .avatar-fallback {
             display: flex;
@@ -363,9 +389,12 @@
            - Lashanthi: https://randomuser.me/api/portraits/women/22.jpg
            - Shaith:  https://randomuser.me/api/portraits/men/75.jpg
            
-           3. To use local images, uncomment the local path and comment the online URL
+           3. To use local images, use the local path (already set)
            
            4. The avatar-fallback span shows initials if image fails to load
+           
+           5. If any presenter's face is cropped, adjust the object-position
+              in the CSS section (look for "INDIVIDUAL PRESENTER IMAGE POSITION ADJUSTMENTS")
         */
         <!-- ============================================================ -->
 
@@ -373,13 +402,14 @@
             
             <!-- ============================================================ -->
             <!-- PRESENTER 1: THUMULA BASURA - Project Manager -->
+            <!-- Face cropping fix applied via CSS (object-position: center 35%) -->
             <!-- ============================================================ -->
             <a href="presenters/thumula/index.html" class="presenter-card">
                 <div class="presenter-avatar">
-                    <!-- OPTION 1: Local image path (double assets folder) -->
+                    <!-- Local image path (double assets folder) -->
                     <img src="assets/assets/images/presenters/thumula.jpg" alt="Thumula Basura">
                     
-                    <!-- OPTION 2: Online sample image (uncomment below and comment above to use) -->
+                    <!-- OPTIONAL: Online sample image (uncomment below and comment above to test) -->
                     <!-- <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thumula Basura"> -->
                     
                     <!-- Fallback: shows initials if image fails -->
@@ -395,10 +425,10 @@
             <!-- ============================================================ -->
             <a href="presenters/nipun/index.html" class="presenter-card">
                 <div class="presenter-avatar">
-                    <!-- OPTION 1: Local image path -->
+                    <!-- Local image path -->
                     <img src="assets/assets/images/presenters/nipun.jpg" alt="Nipun Perera">
                     
-                    <!-- OPTION 2: Online sample image -->
+                    <!-- OPTIONAL: Online sample image -->
                     <!-- <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Nipun Perera"> -->
                     
                     <span class="avatar-fallback" style="display: none;">NP</span>
@@ -413,10 +443,10 @@
             <!-- ============================================================ -->
             <a href="presenters/senuri/index.html" class="presenter-card">
                 <div class="presenter-avatar">
-                    <!-- OPTION 1: Local image path -->
+                    <!-- Local image path -->
                     <img src="assets/assets/images/presenters/senuri.jpg" alt="Senuri Fernando">
                     
-                    <!-- OPTION 2: Online sample image -->
+                    <!-- OPTIONAL: Online sample image -->
                     <!-- <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Senuri Fernando"> -->
                     
                     <span class="avatar-fallback" style="display: none;">SF</span>
@@ -431,10 +461,10 @@
             <!-- ============================================================ -->
             <a href="presenters/lashanthi/index.html" class="presenter-card">
                 <div class="presenter-avatar">
-                    <!-- OPTION 1: Local image path -->
+                    <!-- Local image path -->
                     <img src="assets/assets/images/presenters/lashanthi.jpg" alt="Lashanthi Kumar">
                     
-                    <!-- OPTION 2: Online sample image -->
+                    <!-- OPTIONAL: Online sample image -->
                     <!-- <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Lashanthi Kumar"> -->
                     
                     <span class="avatar-fallback" style="display: none;">LK</span>
@@ -449,10 +479,10 @@
             <!-- ============================================================ -->
             <a href="presenters/shaith/index.html" class="presenter-card">
                 <div class="presenter-avatar">
-                    <!-- OPTION 1: Local image path -->
+                    <!-- Local image path -->
                     <img src="assets/assets/images/presenters/shaith.jpg" alt="Shaith Ranasinghe">
                     
-                    <!-- OPTION 2: Online sample image -->
+                    <!-- OPTIONAL: Online sample image -->
                     <!-- <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Shaith Ranasinghe"> -->
                     
                     <span class="avatar-fallback" style="display: none;">SR</span>
@@ -476,7 +506,7 @@
     <!-- JavaScript for image fallback - shows initials if image fails to load -->
     <script>
         (function() {
-            console.log("CyberDoc LAN Proposal | Teaching Hospital Rathnapura");
+            console.log("CyberDoc LAN Proposal | Teaching Hospital Rathnapura - Face cropping fix applied for Thumula");
             
             // Handle image loading errors - show fallback initials
             const allAvatars = document.querySelectorAll('.presenter-avatar');
@@ -492,6 +522,7 @@
                         if (fallback) {
                             fallback.style.display = 'flex';
                         }
+                        console.log("Image failed to load, showing fallback initials");
                     };
                     
                     // If image loads successfully, hide fallback
@@ -499,6 +530,7 @@
                         if (fallback) {
                             fallback.style.display = 'none';
                         }
+                        console.log("Image loaded successfully");
                     };
                 }
             });
