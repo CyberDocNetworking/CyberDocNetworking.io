@@ -60,4 +60,10 @@ document.addEventListener("keydown", (e) => {
       clearInterval(interval);
     }
   }
+/* SWITCH PRESENTER (keyboard) */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "1") window.location.href = "presenter1.html";
+  if (e.key === "2") window.location.href = "presenter2.html";
+  if (e.key === "3") window.location.href = "presenter3.html";
+  if (e.key === "4") window.location.href = "presenter4.html";
 });
