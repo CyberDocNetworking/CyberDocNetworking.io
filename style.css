@@ -1,146 +1,40 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
+  margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
-  color: #ffffff;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: white;
   overflow: hidden;
 }
 
-/* CENTER HOME */
-.center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.menu button {
-  width: 260px;
-  margin: 10px;
-}
-
-/* SLIDES */
 .slide {
   display: none;
   height: 100vh;
   padding: 60px;
-  animation: slideFade 0.6s ease;
+  animation: fade 0.5s ease;
 }
 
 .slide.active {
   display: block;
 }
 
-/* TITLES */
 h1 {
   font-size: 42px;
-  margin-bottom: 25px;
   color: #38bdf8;
-  text-shadow: 0 0 10px rgba(56,189,248,0.4);
 }
 
-h2 {
-  color: #22c55e;
-  margin-bottom: 10px;
-}
-
-/* LISTS */
 ul {
   list-style: none;
 }
 
 ul li {
-  padding: 12px;
   margin: 10px 0;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  transition: 0.3s;
-}
-
-ul li:hover {
-  transform: scale(1.05);
-  background: rgba(56,189,248,0.2);
-}
-
-/* CARDS */
-.card {
+  padding: 10px;
   background: rgba(255,255,255,0.05);
-  padding: 20px;
-  margin: 15px 0;
-  border-radius: 15px;
-  backdrop-filter: blur(12px);
-}
-
-/* SPLIT */
-.split {
-  display: flex;
-  gap: 30px;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-/* NAVIGATION */
-.nav {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 40px;
-}
-
-/* BUTTONS */
-button {
-  background: linear-gradient(45deg, #38bdf8, #0ea5e9);
-  border: none;
-  padding: 12px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  color: white;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #38bdf8;
-}
-
-/* NOTES */
-.notes {
-  margin-top: 25px;
-  font-size: 14px;
-  opacity: 0.7;
-  display: none;
-  background: rgba(0,0,0,0.4);
-  padding: 15px;
   border-radius: 10px;
 }
 
-.show-notes .notes {
-  display: block;
-}
-
-/* ANIMATION */
-@keyframes slideFade {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Smooth animation */
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
