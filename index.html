@@ -57,16 +57,66 @@ p { max-width:800px; color:#8892B0; }
   transform:translateY(0);
 }
 
+
+
+/* HERO BACKGROUND IMAGE */
+.hero {
+  position:relative;
+  background:url('https://i.ibb.co/cd5hq75/teaching-hospital-rathnapura.jpg') center/cover no-repeat;
+}
+
+.hero .overlay {
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(10,25,47,0.75);
+  top:0;
+  left:0;
+}
+
+.hero .content {
+  position:relative;
+  z-index:2;
+  animation:fadeZoom 1.5s ease forwards;
+}
+
+.hero h1 {
+  font-size:2.8rem;
+  animation:slideDown 1.2s ease forwards;
+}
+
+.hero p {
+  animation:fadeUp 2s ease forwards;
+}
+
+@keyframes fadeZoom {
+  from { opacity:0; transform:scale(1.1);} 
+  to { opacity:1; transform:scale(1);} 
+}
+
+@keyframes slideDown {
+  from { transform:translateY(-40px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+
+@keyframes fadeUp {
+  from { transform:translateY(30px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+
 </style>
 </head>
 
 <body>
 
 <!-- SLIDE 1 -->
-<section class="fade">
+<section class="fade hero">
+<div class="overlay"></div>
+<div class="content">
 <h1>CyberDoc <span class="highlight">Network Solutions</span></h1>
 <p>We are experts in networking — LAN, Wi-Fi, Data Centers & Security</p>
 <p>Today we present the <b>District Hospital LAN Upgrade Proposal</b></p>
+</div>
 </section>
 
 <!-- SLIDE 2 -->
