@@ -16,12 +16,7 @@ let pageIndex = presenters.indexOf(page);
 /* Show first slide */
 slides[current].classList.add("active");
 
-/* NORMAL CLICK MODE */
-document.addEventListener("click", () => {
-  if (!autoMode) nextSlide();
-});
-
-/* FUNCTIONS */
+/* NEXT */
 function nextSlide() {
   slides[current].classList.remove("active");
   current++;
@@ -33,53 +28,51 @@ function nextSlide() {
   }
 }
 
+/* PREVIOUS */
 function prevSlide() {
   slides[current].classList.remove("active");
   current = (current - 1 + slides.length) % slides.length;
   slides[current].classList.add("active");
 }
 
-/* GO TO NEXT PRESENTER */
+/* NEXT PRESENTER */
 function goNextPresenter() {
   let nextPage = presenters[pageIndex + 1];
 
   if (nextPage) {
     window.location.href = nextPage;
   } else {
-    window.location.href = presenters[0]; // loop
+    window.location.href = presenters[0];
   }
 }
 
-/* AUTO MODE */
-let autoMode = false;
-let interval;
-
-function toggleAuto() {
-  autoMode = !autoMode;
-
-  if (autoMode) {
-    interval = setInterval(() => {
-      nextSlide();
-    }, 4000);
-  } else {
-    clearInterval(interval);
-  }
-}
-
-/* KEYBOARD CONTROLS */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight") nextSlide();
-  if (e.key === "ArrowLeft") prevSlide();
-
-  if (e.key === "a") toggleAuto(); // 🔥 AUTO ON/OFF
-
-  if (e.key === "f") {
-    document.documentElement.requestFullscreen();
-  }
-});
+/* CLICK = NEXT */
+document.addEventListener("click", nextSlide);
 
 /* RIGHT CLICK = PREVIOUS */
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault();
   prevSlide();
+});
+
+/* AUTO MODE */
+let auto = false;
+let interval;
+
+function toggleAuto() {
+  auto = !auto;
+
+  if (auto) {
+    interval = setInterval(nextSlide, 4000);
+  } else {
+    clearInterval(interval);
+  }
+}
+
+/* KEYBOARD (hidden controls) */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight" || e.key === " ") nextSlide();
+  if (e.key === "ArrowLeft") prevSlide();
+  if (e.key === "a") toggleAuto();
+  if (e.key === "f") document.documentElement.requestFullscreen();
 });
