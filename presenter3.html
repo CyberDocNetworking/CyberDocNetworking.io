@@ -1,34 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CyberDoc Presentation - 04</title>
-  <link rel="stylesheet" href="style.css" />
+<title>Presenter 3 - Security Admin</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body data-prev="slide3.html" data-next="slide5.html">
-  <section class="slide">
-    <header class="slide-top">
-      <div class="brand">CyberDoc Network Solutions</div>
-      <div class="counter">04 / 12</div>
-    </header>
+<body>
 
-    <main class="slide-main">
-      <div class="content">
-        <h1>Network Architecture</h1>
-        <p>VLAN segmentation • IP planning • Routing & ACLs • Firewall rules</p>
-      </div>
-    </main>
+<div class="slide active">
+<h1>RBAC</h1>
+<ul>
+<li>Doctors</li>
+<li>Nurses</li>
+<li>Lab staff</li>
+<li>Admins</li>
+</ul>
 
-    <footer class="slide-bottom">
-      <div class="nav-hint">Use keyboard or click</div>
-      <div class="nav-group">
-        <a class="nav-btn" href="slide3.html" data-go-prev>Previous</a>
-        <a class="nav-btn" href="slide5.html" data-go-next>Next</a>
-      </div>
-    </footer>
-  </section>
+<div class="notes">
+Each role has limited access to protect data.
+</div>
+</div>
 
-  <script src="script.js"></script>
+<div class="slide">
+<h1>Backup Strategy</h1>
+<ul>
+<li>Weekly backups</li>
+<li>Cloud + local</li>
+<li>Encrypted</li>
+<li>Fast recovery</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Firewall & Antivirus</h1>
+<ul>
+<li>Threat protection</li>
+<li>Auto updates</li>
+<li>Scans</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Software Licensing</h1>
+<ul>
+<li>Windows</li>
+<li>SQL Server</li>
+<li>Microsoft 365</li>
+<li>Security licenses</li>
+</ul>
+</div>
+
+<div class="nav">
+<button onclick="prevSlide()">◀</button>
+<button onclick="nextSlide()">▶</button>
+<button onclick="toggleNotes()">📝</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
